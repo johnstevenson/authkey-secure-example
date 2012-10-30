@@ -1,6 +1,5 @@
 <?php
 
-  chdir(__DIR__);
   ini_set('default_charset', 'UTF-8');
 
   # we don't want any PHP errors being output
@@ -10,6 +9,8 @@
   ini_set('log_errors', '1');
   ini_set('error_log', 'server-errors.log');
 
+
+  # this will fail if you have not installed the required packages via Composer
   require('vendor/autoload.php');
 
 
@@ -34,13 +35,9 @@ function authorize(AuthKey\Secure\Server $Server)
 {
 
   /*
-    The client's accountId is in $Server->accountId. Note that this may
-    be an empty string ('') if you allow requests to public resources
-    (by setting the 'public' option to true), in which case Auth-Key headers
-    will have been sent.
+    The client's accountId is in $Server->accountId.
 
-    On success set $Server->accountKey to the client's accountKey (or
-    leave empty in the case of public resources) and return true.
+    On success set $Server->accountKey to the client's accountKey and return true.
 
     On error return either an array containing the error message:
 
@@ -66,7 +63,6 @@ function authorize(AuthKey\Secure\Server $Server)
   if ($Server->accountId === 'client-demo')
   {
     $Server->accountKey = 'U7ZPJyFAX8Gr3Hm2DFrSQy3x1I3nLdNT2U1c+ToE5Vk=';
-    //$Server->setRequired('content-type');
     $res = true;
   }
 
@@ -78,13 +74,15 @@ function authorize(AuthKey\Secure\Server $Server)
 function process(AuthKey\Secure\Server $Server)
 {
 
+  $rfcDate = date(DATE_RFC850);
+
   if ($data = @json_decode($Server->input))
   {
 
     if (isset($data->msg))
     {
       $data->msg = 'Received message: ' . $data->msg;
-      $data->time = date(DATE_RFC2822);
+      $data->time = $rfcDate;
       $Server->reply(json_encode($data));
       return;
     }
@@ -92,6 +90,6 @@ function process(AuthKey\Secure\Server $Server)
   }
 
   //$Server->setXHeaderOut('content-type', 'text/html');
-  $Server->reply('Reply from server [' . date(DATE_RFC822) . ']');
+  $Server->reply('Reply from server [' . $rfcDate . ']');
 
 }
