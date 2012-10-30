@@ -1,0 +1,20 @@
+{
+
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git://github.com/johnstevenson/authkey-secure"
+    },
+    {
+      "type": "vcs",
+      "url": "git://github.com/johnstevenson/authkey"
+    }
+  ],
+
+  "minimum-stability": "dev",
+
+  "require": {
+    "authkey/secure": "dev-master"
+  }
+
+}
