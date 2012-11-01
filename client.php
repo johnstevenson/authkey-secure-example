@@ -28,7 +28,7 @@
 
 
   # ...and send it
-  $result = $client->send($url, $data);
+  $result = $client->send('POST', $url, $data);
 
 
   demoDisplay();
