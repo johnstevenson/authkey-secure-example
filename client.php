@@ -20,7 +20,7 @@
 
   # set the proxy for the demo
   $client->setCurlOption(CURLOPT_PROXY, $proxy);
-
+  $client->setHeader('Content-Type', 'application/json');
 
   # write some data to send (must be a string) ...
   $data = array('msg' => $message ? $message : 'Hello World');
